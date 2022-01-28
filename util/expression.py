@@ -10,16 +10,16 @@ ONE = 1
 def __generate_coefficient(low: int = 2, high: int = 11, negative_sign_probability: float = 0.5) -> str:
     sign = choice(SIGNS, p=[ONE - negative_sign_probability, negative_sign_probability])
     coefficient = randint(low, high)
-    return sign if coefficient == ONE else f' {sign} {coefficient}.'
+    return sign if coefficient == ONE else f' {sign} {coefficient}*'
 
 
 def __generate_single_term(powers: list) -> str:
     term = ''
     for i, power in enumerate(powers):
         if power == 1:
-            term += f'x{i + ONE}.'
+            term += f'x{i + ONE}*'
         elif power > 1:
-            term += f'x{i + ONE}^{power}.'
+            term += f'x{i + ONE}**{power}*'
     return term[:-ONE]
 
 
