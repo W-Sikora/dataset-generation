@@ -1,13 +1,23 @@
 from os import path
 from pandas import DataFrame, Categorical, read_csv, to_datetime
 
+from datasets.language_option import LanguageOption
+
+
+class Loader:
+
+    def __init__(self,
+
+                 language_option: LanguageOption = LanguageOption.ENGLISH):
+        self.language_option = language_option
+
+
 ENGLISH = 'en'
 POLISH = 'pl'
 MIN_ROWS = 1
 
 
 def __load(dataset_name: str, number_of_rows: int = None) -> DataFrame:
-
     dataset_path = path.join('datasets', 'data', dataset_name)
 
     return read_csv(
@@ -18,20 +28,17 @@ def __load(dataset_name: str, number_of_rows: int = None) -> DataFrame:
 
 
 def __validate_headers_language(headers_language: str):
-
     if headers_language != ENGLISH and headers_language != POLISH:
         raise Exception(f'The allowed values are \'{ENGLISH}\' or \'{POLISH}\'')
 
 
 def __validate_number_of_rows(number_of_rows: int, max_rows: int):
-
     if number_of_rows is not None and MIN_ROWS > number_of_rows > max_rows:
         raise Exception(f'The number of rows must be between {MIN_ROWS} and {max_rows}')
 
 
 def __form_dataset(dataset_name: str, headers: dict, max_number_of_rows: int,
                    headers_language: str = 'en', number_of_rows: int = None) -> DataFrame:
-
     __validate_headers_language(headers_language)
     __validate_number_of_rows(number_of_rows, max_number_of_rows)
 
@@ -44,7 +51,6 @@ def __form_dataset(dataset_name: str, headers: dict, max_number_of_rows: int,
 
 
 def __load_stock_market(dataset_name: str, headers_language: str = 'en', number_of_rows: int = None) -> DataFrame:
-
     stock_market_max_number_of_rows = 429
     stock_market_headers = {
         ENGLISH: [
