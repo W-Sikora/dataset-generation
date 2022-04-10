@@ -50,5 +50,9 @@ class Sign(Enum):
             Sign.PLUS
         }
 
+    @staticmethod
+    def positive_and_negative_as_list() -> list:
+        return list(Sign.positive_and_negative())
+
     def __str__(self):
         return str(self.value)

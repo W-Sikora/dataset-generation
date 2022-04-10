@@ -1,10 +1,18 @@
+from typing import List
 from utils import string_utils
-from utils.messages import NOT_NONE_FAILED_MESSAGE, CONDITION_FAILED_MESSAGE, HAS_LENGTH_FAILED_MESSAGE
+from utils.numbers_utils import is_between_inclusive, ZERO, ONE
+
+NOT_NONE_FAILED_MESSAGE = 'must not be none'
+HAS_LENGTH_FAILED_MESSAGE = 'must not be none or empty'
+CONDITION_FAILED_MESSAGE = 'condition must not be false'
+PROBABILITY_VALUE_FAILED_MESSAGE = 'must be between 0 and 1 inclusive'
+LIST_FAILED_MESSAGE = 'must contain at least one element'
+VALUE_NAME_DEFAULT = 'value'
 
 
-def not_none(value, message: str = NOT_NONE_FAILED_MESSAGE):
+def not_none(value, message: str = NOT_NONE_FAILED_MESSAGE, value_name: str = VALUE_NAME_DEFAULT):
     if value is None:
-        raise ValueError(message)
+        raise ValueError(f'{value_name} {message}')
 
 
 def is_true(condition: bool, message: str = CONDITION_FAILED_MESSAGE):
@@ -12,6 +20,16 @@ def is_true(condition: bool, message: str = CONDITION_FAILED_MESSAGE):
         raise ValueError(message)
 
 
-def has_length(value: str, message: str = HAS_LENGTH_FAILED_MESSAGE):
+def has_length(value: str, message: str = HAS_LENGTH_FAILED_MESSAGE, value_name: str = VALUE_NAME_DEFAULT):
     if string_utils.has_length(value):
-        raise ValueError(message)
+        raise ValueError(f'{value_name} {message}')
+
+
+def is_valid_probability(value, message: str = PROBABILITY_VALUE_FAILED_MESSAGE, value_name: str = VALUE_NAME_DEFAULT):
+    if value is None or not is_between_inclusive(value, ZERO, ONE):
+        raise ValueError(f'{value_name} {message}')
+
+
+def not_empty(value: List, message: str = LIST_FAILED_MESSAGE, value_name: str = VALUE_NAME_DEFAULT):
+    if not value:
+        raise ValueError(f'{value_name} {message}')
