@@ -1,58 +1,42 @@
-from enum import Enum
 from utils.assertions import has_length
 
+DIVISION = '/'
+MINUS = '-'
+PLUS = '+'
+POWER = '**'
+TIMES = '*'
+BASIC = [
+    DIVISION,
+    MINUS,
+    PLUS,
+    TIMES
+]
+POSITIVE_AND_NEGATIVE = [
+    MINUS,
+    PLUS
+]
 
-class Sign(Enum):
-    DIVISION = '/'
-    MINUS = '-'
-    PLUS = '+'
-    POWER = '**'
-    TIMES = '*'
 
-    @staticmethod
-    def is_division(value: str) -> bool:
-        has_length(value)
-        return value == Sign.DIVISION.value
+def is_division(value: str) -> bool:
+    has_length(value)
+    return value == DIVISION
 
-    @staticmethod
-    def is_minus(value: str) -> bool:
-        has_length(value)
-        return value == Sign.MINUS.value
 
-    @staticmethod
-    def is_plus(value: str) -> bool:
-        has_length(value)
-        return value == Sign.PLUS.value
+def is_minus(value: str) -> bool:
+    has_length(value)
+    return value == MINUS
 
-    @staticmethod
-    def is_power(value: str) -> bool:
-        has_length(value)
-        return value == Sign.POWER.value
 
-    @staticmethod
-    def is_times(value: str) -> bool:
-        has_length(value)
-        return value == Sign.TIMES.value
+def is_plus(value: str) -> bool:
+    has_length(value)
+    return value == PLUS
 
-    @staticmethod
-    def basic() -> set:
-        return {
-            Sign.DIVISION,
-            Sign.MINUS,
-            Sign.PLUS,
-            Sign.TIMES
-        }
 
-    @staticmethod
-    def positive_and_negative() -> set:
-        return {
-            Sign.MINUS,
-            Sign.PLUS
-        }
+def is_power(value: str) -> bool:
+    has_length(value)
+    return value == POWER
 
-    @staticmethod
-    def positive_and_negative_as_list() -> list:
-        return list(Sign.positive_and_negative())
 
-    def __str__(self):
-        return str(self.value)
+def is_times(value: str) -> bool:
+    has_length(value)
+    return value == TIMES
