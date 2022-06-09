@@ -5,14 +5,6 @@ import numpy.random as rnd
 import src.utils.assertions as assertions
 
 
-def generate_binary_features(size: int, name: str, options: List[str], probability: float):
-    assertions.has_length(name, 'name')
-    assertions.contains_x_elements(options, 2, 'options')
-    assertions.is_valid_probability(probability, f'probability of {name}')
-
-    return rnd.choice(a=options, size=size, p=[probability, 1 - probability])
-
-
 def generate_categorical_features(size: int,
                                   options: List[str],
                                   probabilities: List[float]):
@@ -33,6 +25,4 @@ def generate_categorical_features(size: int,
         probabilities_sum += probability
     assertions.is_true(probabilities_sum == 1, 'probabilities must sum to one')
 
-    return rnd.choice(a=options,
-                      size=size,
-                      p=probabilities)
+    return rnd.choice(a=options, size=size, p=probabilities)
