@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.utils.assertions import not_none, is_true, has_length, is_valid_probability, contains_x_elements
+from src.utils.assertions import *
 from src.utils.string_utils import EMPTY_STRING
 
 
@@ -29,6 +29,10 @@ class TestAssertions(TestCase):
     def test_should_raise_value_error_when_probability_is_less_than_zero(self):
         incorrect_probability_value = - 0.01
         self.assertRaises(ValueError, is_valid_probability, incorrect_probability_value)
+
+    def test_should_raise_value_error_when_size_is_less_than_one(self):
+        size = 0
+        self.assertRaises(ValueError, is_valid_size, size)
 
     def test_should_raise_value_error_when_container_does_not_contain_indicated_number_of_elements(self):
         container = [1, 2]

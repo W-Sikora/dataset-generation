@@ -6,11 +6,10 @@ CONDITION_FAILED_MESSAGE = 'condition must not be false'
 HAS_LENGTH_FAILED_MESSAGE = '{} must not be none or empty'
 PROBABILITY_VALUE_FAILED_MESSAGE = '{} must be between 0 and 1 inclusive'
 SIZE_FAILED_MESSAGE = 'size must be an integer greater than 0'
-LIST_FAILED_MESSAGE = 'must contain at least one element'
 DEFAULT_VALUE_NAME = 'value'
 CONTAINER_NAME_DEFAULT = 'container'
 DEFAULT_SIZE_NAME = 'size'
-CONTAINER_CONTAINS_ELEMENTS_FAILED_MESSAGE = '{} must contain elements'
+
 
 def not_none(value,
              value_name: str = DEFAULT_VALUE_NAME,
@@ -49,12 +48,6 @@ def is_valid_size(value: int,
                   value_name: str = DEFAULT_SIZE_NAME):
     not_none(value, value_name)
     is_true(value > 0, SIZE_FAILED_MESSAGE)
-
-
-def contains_elements(container,
-                      container_name: str = CONTAINER_NAME_DEFAULT):
-    not_none(container, container_name)
-    is_true(len(container) > 0, CONTAINER_CONTAINS_ELEMENTS_FAILED_MESSAGE.format(container_name))
 
 
 def contains_x_elements(container, number_of_elements: int, container_name: str = CONTAINER_NAME_DEFAULT):
