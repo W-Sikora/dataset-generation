@@ -13,6 +13,11 @@ except ImportError:
     pass
 
 try:
+    import scipy as sp
+except ImportError:
+    pass
+
+try:
     import matplotlib as mp
 except ImportError:
     pass
@@ -24,11 +29,6 @@ except ImportError:
 
 try:
     import fitter as ft
-except ImportError:
-    pass
-
-try:
-    import scipy as sp
 except ImportError:
     pass
 

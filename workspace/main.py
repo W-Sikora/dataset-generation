@@ -1,7 +1,7 @@
 import numpy.random as rnd
 from pandas import DataFrame
 
-from src import generate_classification_problem
+from src import generate_classification_problem, load_apartments
 
 SIZE = 100
 
@@ -20,5 +20,28 @@ def assignment_function(value):
     else:
         return 1
 
+import numpy as np
 
 inp, out = generate_classification_problem(x, 'y = x1/2 * x2 + 3*x3', assignment_function)
+
+apartments = load_apartments()
+apartments['Year'] = apartments['Date'].values.astype(np.int64)
+print(apartments)
+print(apartments.isna().sum().sum())
+
+rooms = apartments['Rooms']
+area = apartments['Area']
+import matplotlib.pyplot as plt
+
+# plt.plot(rooms, area, '.')
+# plt.show()
+
+import seaborn as sns
+
+corrMatrix = apartments.corr()
+color_palette = sns.color_palette("Blues", as_cmap=True)
+sns.heatmap(corrMatrix, annot=True, square=True, cmap=color_palette)
+g = sns.PairGrid(apartments)
+g.map_diag(sns.histplot)
+g.map_offdiag(sns.scatterplot)
+plt.show()
