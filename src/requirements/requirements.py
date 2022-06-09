@@ -1,41 +1,16 @@
-import sys
+from platform import python_version
+from typing import Dict
+
+import fitter as ft
+import matplotlib as mp
+import numpy as np
+import pandas as pd
+import scipy as sp
+import seaborn as sn
+import sklearn as sa
+
 import src.utils.assertions as assertions
 from src.utils.string_utils import DOT
-
-try:
-    import pandas as pd
-except ImportError:
-    pass
-
-try:
-    import numpy as np
-except ImportError:
-    pass
-
-try:
-    import scipy as sp
-except ImportError:
-    pass
-
-try:
-    import matplotlib as mp
-except ImportError:
-    pass
-
-try:
-    import seaborn as sn
-except ImportError:
-    pass
-
-try:
-    import fitter as ft
-except ImportError:
-    pass
-
-try:
-    import sklearn as sa
-except ImportError:
-    pass
 
 PYTHON_VERSION = '3.7.7'
 PANDAS_VERSION = '1.2.3'
@@ -46,63 +21,85 @@ FITTER_VERSION = '1.4.0'
 SCIPY_VERSION = '1.7.3'
 SKLEARN_VERSION = '1.0.2'
 
-
-def is_python_version_acceptable():
-    return __is_version_acceptable(sys.version, PYTHON_VERSION)
+MESSAGE = 'you are using {} {} version, version {} or higher is required'
 
 
-def is_pandas_version_acceptable():
-    return __is_version_acceptable(pd.__version__, PANDAS_VERSION)
-
-
-def is_numpy_version_acceptable():
-    return __is_version_acceptable(np.__version__, NUMPY_VERSION)
-
-
-def is_matplotlib_version_acceptable():
-    return __is_version_acceptable(mp.__version__, MATPLOTLIB_VERSION)
-
-
-def is_seaborn_version_acceptable():
-    return __is_version_acceptable(sn.__version__, SEABORN_VERSION)
-
-
-def is_fitter_version_acceptable():
-    return __is_version_acceptable(ft.version, FITTER_VERSION)
-
-
-def is_scipy_version_acceptable():
-    return __is_version_acceptable(sp.__version__, SCIPY_VERSION)
-
-
-def is_sklearn_version_acceptable():
-    return __is_version_acceptable(sa.__version__, SKLEARN_VERSION)
-
-
-def get_recommended_library_versions():
+def get_recommended_versions() -> Dict[str, str]:
     return {
-        'pandas': PANDAS_VERSION,
-        'numpy': NUMPY_VERSION,
-        'matplotlib': MATPLOTLIB_VERSION,
-        'seaborn': SEABORN_VERSION,
-        'fitter': FITTER_VERSION,
-        'scipy': SCIPY_VERSION,
-        'sklearn': SKLEARN_VERSION
+        'Python': PYTHON_VERSION,
+        'Pandas': PANDAS_VERSION,
+        'NumPy': NUMPY_VERSION,
+        'Matplotlib': MATPLOTLIB_VERSION,
+        'Seaborn': SEABORN_VERSION,
+        'Fitter': FITTER_VERSION,
+        'SciPy': SCIPY_VERSION,
+        'Scikit-learn': SKLEARN_VERSION
     }
 
 
 def check_requirements():
-    pass
+    __python_version_acceptable()
+    __pandas_version_acceptable()
+    __numpy_version_acceptable()
+    __matplotlib_version_acceptable()
+    __seaborn_version_acceptable()
+    __fitter_version_acceptable()
+    __scipy_version_acceptable()
+    __sklearn_version_acceptable()
 
 
-def __raise_error_if_version_unacceptable(library_name: str):
-    raise ValueError(f'{library_name}')
+def __python_version_acceptable():
+    version = python_version()
+    if not __is_version_acceptable(version, PYTHON_VERSION):
+        raise ValueError(MESSAGE.format('Python', version, PYTHON_VERSION))
+
+
+def __pandas_version_acceptable():
+    version = pd.__version__
+    if not __is_version_acceptable(version, PANDAS_VERSION):
+        raise ValueError(MESSAGE.format('Pandas', version, PANDAS_VERSION))
+
+
+def __numpy_version_acceptable():
+    version = np.__version__
+    if not __is_version_acceptable(version, NUMPY_VERSION):
+        raise ValueError(MESSAGE.format('NumPy', version, NUMPY_VERSION))
+
+
+def __matplotlib_version_acceptable():
+    version = mp.__version__
+    if not __is_version_acceptable(version, MATPLOTLIB_VERSION):
+        raise ValueError(MESSAGE.format('Matplotlib', version, MATPLOTLIB_VERSION))
+
+
+def __seaborn_version_acceptable():
+    version = sn.__version__
+    if not __is_version_acceptable(version, SEABORN_VERSION):
+        raise ValueError(MESSAGE.format('Seaborn', version, SEABORN_VERSION))
+
+
+def __fitter_version_acceptable():
+    version = ft.version
+    if not __is_version_acceptable(version, FITTER_VERSION):
+        raise ValueError(MESSAGE.format('Fitter', version, FITTER_VERSION))
+
+
+def __scipy_version_acceptable():
+    version = sp.__version__
+    if not __is_version_acceptable(version, SCIPY_VERSION):
+        raise ValueError(MESSAGE.format('SciPy ', version, SCIPY_VERSION))
+
+
+def __sklearn_version_acceptable():
+    version = sa.__version__
+    if not __is_version_acceptable(version, SKLEARN_VERSION):
+        raise ValueError(MESSAGE.format('Scikit-learn', version, SKLEARN_VERSION))
 
 
 def __is_version_acceptable(version: str, minimum_version: str) -> bool:
     assertions.has_length(version, 'version')
     assertions.has_length(minimum_version, 'minimum version')
-    return __compare(version, minimum_version) < 0
+    return __compare(version, minimum_version) >= 0
 
 
 def __compare(version1: str, version2: str) -> int:
